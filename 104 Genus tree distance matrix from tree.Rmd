@@ -1,0 +1,106 @@
+---
+title: "104 Insecta genus tree distance matrix"
+output: html_document
+date: "2025-09-03"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load libraries
+
+```{r, fig.width=10, fig.height=8}
+library(ape)
+```
+
+
+## Distance matrix from tree
+
+Let's load in the genus tree and calculate the distance matrix.
+
+```{r}
+# Load the genus tree
+cleaned_fish_species_tree <- read.tree("output/Actinopterygii_species_with_order.nwk")
+```
+
+Now we can calculate the distance matrix from the tree. The `cophenetic` 
+function computes the cophenetic distances from a phylogenetic tree.
+
+```{r}
+# Calculate the distance matrix from the tree
+species_distances <- cophenetic(cleaned_fish_species_tree)
+# Convert to a matrix
+species_dist_matrix <- as.matrix(species_distances)
+
+# Set row and column names
+rownames(species_dist_matrix) <- cleaned_fish_species_tree$tip.label
+colnames(species_dist_matrix) <- cleaned_fish_species_tree$tip.label
+
+# Save distance matrix to a file
+write.csv(species_dist_matrix, "output/Actinopterygii_tree_distance_matrix_R.csv", row.names = TRUE)
+```
+
+```{r}
+# Use unique pairwise distances only (upper triangle, excluding diagonal)
+distance_values <- species_dist_matrix[upper.tri(species_dist_matrix, diag = FALSE)]
+
+# Basic statistics for the distance distribution
+distance_stats <- data.frame(
+	metric = c(
+		"n_pairs",
+		"min",
+		"q1",
+		"median",
+		"mean",
+		"q3",
+		"max",
+		"sd"
+	),
+	value = c(
+		length(distance_values),
+		min(distance_values),
+		quantile(distance_values, 0.25),
+		median(distance_values),
+		mean(distance_values),
+		quantile(distance_values, 0.75),
+		max(distance_values),
+		sd(distance_values)
+	)
+)
+
+distance_stats
+
+# Histogram of pairwise tree distances
+plot_distance_histogram <- function(values) {
+	op <- par(no.readonly = TRUE)
+	on.exit(par(op), add = TRUE)
+	par(mar = c(5.1, 7.1, 4.1, 2.1))
+
+	hist_obj <- hist(
+		values,
+		breaks = 40,
+		col = "steelblue",
+		border = "white",
+		main = "Distribution of Pairwise Tree Distances",
+		xlab = "Cophenetic distance",
+		ylab = "Frequency",
+		yaxt = "n"
+	)
+
+	y_ticks <- pretty(c(0, hist_obj$counts))
+	axis(
+		2,
+		at = y_ticks,
+		labels = format(y_ticks, scientific = FALSE, big.mark = ",", trim = TRUE),
+		las = 1
+	)
+}
+
+plot_distance_histogram(distance_values)
+
+# Save histogram to PNG in current directory
+png("distance_histogram.png", width = 10, height = 8, units = "in", res = 150)
+plot_distance_histogram(distance_values)
+dev.off()
+```

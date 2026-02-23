@@ -1,0 +1,7 @@
+/output/**
+/output - duplicate points/**
+/.vscode/**
+/.Rproj.user/**
+.lintr
+/__pycache__/**
+*.png
