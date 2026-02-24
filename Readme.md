@@ -4,9 +4,24 @@
 This Readme documents the notebooks here for generating an input dataset for
 ray-finned fish points for CVoL.
 
+** NOTEBOOKS **
+
+The notebooks here are meant to be run in sequence, based on the 3 number prefix
+on each one. Successive notebooks rely on data created by previous ones. The
+starting point for the entire pipeline is a Newick-formatted tree downloaded
+from TimeTree.org, using "fish" for the group of taxa, selecting
+"Actinopterygii", and then "species". As of the writing of this document, there
+were 15143 species in the tree.
+
+The data cleaning notebook (101) is tailored to the tree downloaded at the time
+of writing. An updated tree with new taxa (how often are new species of fish
+identified?) may require modifications to the cleaning code.
+
 ##  1. Input Data Tree
 
-Get species-level tree from Timetree.org (or genus-level if that's better, as with insects).
+Get species-level tree from Timetree.org (or genus-level if that's better, as
+with insects). This is pre-fetched and stored in the git repo here. You can
+update as you see fit, but you may need to fix up the cleaning code (101).
 
 Output file: `ray-finned fishes_species.nwk`
 

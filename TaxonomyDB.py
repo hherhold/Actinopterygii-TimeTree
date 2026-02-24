@@ -25,20 +25,11 @@ class TaxonomyDB:
     """A class to handle taxonomy data. Some data is cached locally using SQLite."""
     
     def __init__(self, 
-                 data_dir="/mnt/c/Users/hherhold/Data/NCBI_taxdump",
                  db_file=DB_FILE):
         self.db_file = db_file
         self.conn = self.create_connection()
         if self.conn:
             self.create_table()
-        print("Loading NCBI taxonomy data...", end="")
-        sys.stdout.flush()
-
-        self.tax = taxidTools.read_taxdump(f"{data_dir}/nodes.dmp",
-                                           f"{data_dir}/rankedlineage.dmp",
-                                           f"{data_dir}/merged.dmp")
-        print("done.")
-        sys.stdout.flush()
 
     def create_connection(self):
         """Create a database connection to the SQLite database specified by DB_FILE."""
@@ -222,11 +213,7 @@ class TaxonomyDB:
 # Test the GBIFSpeciesDB class
 if __name__ == "__main__":
     # If we're on windows, we need to set the data_dir to the correct path.
-    if os.name == 'nt':
-        data_dir = "C:/Users/hherhold/CVoL/Data/NCBI_taxdump"
-    else:
-        data_dir = "/mnt/c/Users/hherhold/CVoL/Data/NCBI_taxdump"
-    gbif_db = TaxonomyDB(data_dir=data_dir)
+    gbif_db = TaxonomyDB()
 
     # Example usage
     genus_list = ['Panthera', 'Ursus', 'Canis', 'Felis', 'Elephas']
@@ -240,4 +227,3 @@ if __name__ == "__main__":
     if gbif_db.conn:
         gbif_db.conn.close()
         print("Database connection closed.")
-
