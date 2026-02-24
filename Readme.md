@@ -95,6 +95,11 @@ onto the sphere as our scaffold.
    - `output/random_taxa_mds_coords_norm_on_sphere.internal.csv`
    - `output/random_taxa_mds_coords_norm_on_sphere.leaves.csv`
 
+6. (Suggested by Wandrille and Takanori). Run a relaxation step here to spread
+   out the order-level points. The current setup results in some overlap of
+   points; this is an attempt to spread out the order-level points to minimize
+   these overlaps.
+
 ## 5. Run DR on each level separately.
 
  - `141 Actinopterygii order-level MDS.ipynb`
