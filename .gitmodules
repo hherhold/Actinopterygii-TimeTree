@@ -1,6 +1,6 @@
 [submodule "spherical-scatterplot-relaxation"]
 	path = spherical-scatterplot-relaxation
-	url = https://github.com/WandrilleD/spherical-scatterplot-relaxation
+	url = https://github.com/hherhold/spherical-scatterplot-relaxation
 [submodule "integrate_tree_to_XYZ"]
 	path = integrate_tree_to_XYZ
 	url = https://github.com/WandrilleD/integrate_tree_to_XYZ.git
