@@ -4,7 +4,18 @@
 This Readme documents the notebooks here for generating an input dataset for
 ray-finned fish points for CVoL.
 
-** NOTEBOOKS **
+**FULL DISCLOSURE ON USE OF AI**
+
+During the process of creating, maintaining, updating, and expanding these
+notebooks, I increasingly used AI-assisted coding tools, in particular Claude
+Sonnet 4.6. While these tools are far from perfect, I found them to be an
+incredible resource for code analysis, review, and adding features. No data
+was directly ingested or manipulated via AI.
+
+Modifications to spherical-scatterplot-relaxation were performed using
+Claude Sonnet 4.6.
+
+**NOTEBOOKS**
 
 The notebooks here are meant to be run in sequence, based on the 3 number prefix
 on each one. Successive notebooks rely on data created by previous ones. The
