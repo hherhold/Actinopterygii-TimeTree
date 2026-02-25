@@ -53,6 +53,12 @@ Outputs:
     output/Actinopterygii_order_level.nwk
     output/Actinopterygii_genus_order_family_taxon.csv
 
+`102 Plotting Actinopterygii tree.Rmd`
+
+This R Markdown notebook uses ggtree to better visualize the tree. With 15000+
+leaves, it's still pretty darn messy. Not sure how useful this is, but it's
+included here. Not essential for the "pipeline".
+
 ## 3. Make a distance matrix.
 `104 Genus tree distance matrix from tree.Rmd`
 

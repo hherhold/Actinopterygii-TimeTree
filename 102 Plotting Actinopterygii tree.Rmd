@@ -1,0 +1,64 @@
+---
+title: "102 Plotting Actinopterygii tree"
+output: html_document
+date: "2025-09-03"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load libraries
+
+```{r, fig.width=10, fig.height=8}
+library(ape)
+library(ggplot2)
+library(ggtree)
+```
+
+```{r}
+## Load tree
+actinopterygii_tree <- read.tree("output/Actinopterygii_species_with_order.nwk")
+```
+
+```{r}
+## Load taxonomy data and map each tip to its order
+taxon_order <- read.csv("output/Actinopterygii_genus_order_family_taxon.csv",
+                        stringsAsFactors = FALSE)
+
+## For each order, find the MRCA node among its tips present in the tree
+orders <- unique(taxon_order$order)
+order_nodes <- do.call(rbind, lapply(orders, function(ord) {
+  tips <- taxon_order$taxon[taxon_order$order == ord]
+  tips <- intersect(tips, actinopterygii_tree$tip.label)
+  if (length(tips) == 0) return(NULL)
+  node <- if (length(tips) == 1) {
+    which(actinopterygii_tree$tip.label == tips)
+  } else {
+    getMRCA(actinopterygii_tree, tips)
+  }
+  data.frame(node = node, order = ord, stringsAsFactors = FALSE)
+}))
+
+## Assign a distinct color to each order
+order_nodes$color <- rainbow(nrow(order_nodes), s = 0.85, v = 0.85)
+```
+
+```{r}
+## Plot circular tree with colored outer arc bands per order
+p <- ggtree(actinopterygii_tree, layout = "circular") +
+  geom_cladelab(
+    data     = order_nodes,
+    mapping  = aes(node = node, label = order, color = color, barcolor = color),
+    fontsize = 2.5,
+    barsize  = 3,
+    offset   = 2,
+    align    = TRUE
+  ) +
+  scale_color_identity()
+
+p
+
+ggsave("output/Actinopterygii_circular_tree.png", plot = p, width = 20, height = 20, dpi = 300, limitsize = FALSE)
+```
+
