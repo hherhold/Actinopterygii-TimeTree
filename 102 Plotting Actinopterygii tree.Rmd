@@ -18,12 +18,12 @@ library(ggtree)
 
 ```{r}
 ## Load tree
-actinopterygii_tree <- read.tree("output/Actinopterygii_species_with_order.nwk")
+actinopterygii_tree <- read.tree("output/cleaned_trees/Actinopterygii_species_with_order.nwk")
 ```
 
 ```{r}
 ## Load taxonomy data and map each tip to its order
-taxon_order <- read.csv("output/Actinopterygii_genus_order_family_taxon.csv",
+taxon_order <- read.csv("output/cleaned_trees/Actinopterygii_genus_order_family_taxon.csv",
                         stringsAsFactors = FALSE)
 
 ## For each order, find the MRCA node among its tips present in the tree
@@ -59,6 +59,6 @@ p <- ggtree(actinopterygii_tree, layout = "circular") +
 
 p
 
-ggsave("output/Actinopterygii_circular_tree.png", plot = p, width = 20, height = 20, dpi = 300, limitsize = FALSE)
+ggsave("output/cleaned_trees/Actinopterygii_circular_tree.png", plot = p, width = 20, height = 20, dpi = 300, limitsize = FALSE)
 ```
 
