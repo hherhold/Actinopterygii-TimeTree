@@ -21,7 +21,7 @@ Let's load in the genus tree and calculate the distance matrix.
 
 ```{r}
 # Load the genus tree
-cleaned_fish_species_tree <- read.tree("output/Actinopterygii_species_with_order.nwk")
+cleaned_fish_species_tree <- read.tree("output/cleaned_trees/Actinopterygii_species_with_order.nwk")
 ```
 
 Now we can calculate the distance matrix from the tree. The `cophenetic` 
@@ -38,7 +38,7 @@ rownames(species_dist_matrix) <- cleaned_fish_species_tree$tip.label
 colnames(species_dist_matrix) <- cleaned_fish_species_tree$tip.label
 
 # Save distance matrix to a file
-write.csv(species_dist_matrix, "output/Actinopterygii_tree_distance_matrix_R.csv", row.names = TRUE)
+write.csv(species_dist_matrix, "output/Actinopterygii_species_distance_matrix_R.csv", row.names = TRUE)
 ```
 
 ```{r}
