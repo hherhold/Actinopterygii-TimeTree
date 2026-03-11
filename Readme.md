@@ -15,6 +15,22 @@ was directly ingested or manipulated via AI.
 Modifications to spherical-scatterplot-relaxation were performed using
 Claude Sonnet 4.6.
 
+**Dependencies**
+
+I have tried to make an appropriate yml file for making an environment for this
+set of notebooks, but I've had not great luck with those being very portable. My
+advice is to just keep running the notebooks and installing things until you get
+it working. There's nothing terribly exotic; the ETE library is used for some
+things and can be a pain to install on Windows. `plotly` and `pandas` are used
+extensively. Be prepared for some R pain if you want to run the R markdown
+notebooks. Remember, you can't spell "AAARRRRRGGGGHHH" without 'R'.
+
+This also includes the following repos as submodules:
+
+	url = https://github.com/hherhold/spherical-scatterplot-relaxation
+	url = https://github.com/WandrilleD/integrate_tree_to_XYZ.git
+
+
 **NOTEBOOKS**
 
 The notebooks here are meant to be run in sequence, based on the 3 number prefix
@@ -60,9 +76,9 @@ leaves, it's still pretty darn messy. Not sure how useful this is, but it's
 included here. Not essential for the "pipeline".
 
 ## 3. Make a distance matrix.
-`104 Genus tree distance matrix from tree.Rmd`
 
-`105 Species tree distance matrix from tree.ipynb`
+    104 Genus tree distance matrix from tree.Rmd
+    105 Species tree distance matrix from tree.ipynb
 
 This is a species-level distance matrix generated from the tree file. It
 contains tip-to-tip distances for all taxa. This can also be done in R with a
@@ -94,11 +110,11 @@ Output:
 
 DR on the full fish dataset is very messy and does not result in nice
 clustering. One of the primary reasons for this is that a given order with two
-very old families has a very deep divergent time, and this results in very Long
-Branch lengths. This winds up with two clusters that are closely related but
+very old families has a very deep divergence time, and this results in very long
+branch lengths. This winds up with two clusters that are closely related but
 wind up being very far apart when mapped onto the sphere of fish points.
 
-To circumvent this, we First create an order level tree and project these points
+To circumvent this, we first create an order level tree and project these points
 onto the sphere. We then do 2D dimensionality reduction on an order by order
 basis, and then graft these results back onto the order level points projected
 onto the sphere as our scaffold.
@@ -167,4 +183,3 @@ scaffold sphere created above.
  This also re-positions the order-level points at the centroid position of each
  order after relaxation is completed. It also re-runs `integrate_tree_to_XYZ` to
  generate new branch lines for the repositioned order points.
- 
