@@ -49,9 +49,9 @@ are then renamed to the given order and the tree is saved.
     
 Outputs:
 
-    output/Actinopterygii_species_with_order.nwk
-    output/Actinopterygii_order_level.nwk
-    output/Actinopterygii_genus_order_family_taxon.csv
+    output/cleaned_trees/Actinopterygii_species_with_order.nwk
+    output/cleaned_trees/Actinopterygii_orders.nwk
+    output/cleaned_trees/Actinopterygii_genus_order_family_taxon.csv
 
 `102 Plotting Actinopterygii tree.Rmd`
 
@@ -74,8 +74,21 @@ precision, etc but it doesn't matter here.
 
 Outputs:
 
-    output/Actinopterygii_tree_distance_matrix_py.csv
-    output/Actinopterygii_tree_distance_matrix_R.csv
+    output/Actinopterygii_species_distance_matrix_py.csv
+    output/Actinopterygii_species_distance_matrix_R.csv
+
+`106 Species tree distance matrix from tree by branch count.ipynb`
+
+An alternative distance matrix where the distance between any two taxa is the
+number of branches (edges) traversed on the path between them, rather than the
+sum of branch lengths (time). This topology-based metric treats all branches
+equally regardless of their evolutionary duration, which may produce different
+clustering behavior in downstream DR steps. Uses an efficient postorder traversal
+to compute the full pairwise matrix. (Wandrille's method.)
+
+Output:
+
+    output/Actinopterygii_species_branch_count_distance_matrix.csv
 
 ## 4. Make an order-level scaffold.
 
@@ -99,18 +112,18 @@ onto the sphere as our scaffold.
 4. Run cMDS on this to generate an XYZ point for each order, and use
    `integrate_tree_to_XYZ` to make some branches.
 
-   - `output/random_taxa_mds_coords.csv`
-   - `output/random_taxa_mds.branches.csv`
-   - `output/random_taxa_mds.internal.csv`
-   - `output/random_taxa_mds.leaves.csv`
+   - `output/scaffold/Actinopterygii_sampled_orders_mds_in_space.csv`
+   - `output/scaffold/Actinopterygii_sampled_orders_mds_in_space.branches.csv`
+   - `output/scaffold/Actinopterygii_sampled_orders_mds_in_space.internal.csv`
+   - `output/scaffold/Actinopterygii_sampled_orders_mds_in_space.leaves.csv`
 
 5. Normalize the points so they are all on the surface of a sphere with radius
    1.0. Run `integrate_tree_to_XYZ` to make proper branches for these too. 
 
-   - `output/random_taxa_mds_coords_norm_on_sphere.csv`
-   - `output/random_taxa_mds_coords_norm_on_sphere.branches.csv`
-   - `output/random_taxa_mds_coords_norm_on_sphere.internal.csv`
-   - `output/random_taxa_mds_coords_norm_on_sphere.leaves.csv`
+   - `output/scaffold/Actinopterygii_sampled_orders_mds.csv`
+   - `output/scaffold/Actinopterygii_sampled_orders_mds.branches.csv`
+   - `output/scaffold/Actinopterygii_sampled_orders_mds.internal.csv`
+   - `output/scaffold/Actinopterygii_sampled_orders_mds.leaves.csv`
 
 6. (Suggested by Wandrille and Takanori). Run a relaxation step here to spread
    out the order-level points. The current setup results in some overlap of
@@ -138,7 +151,9 @@ Now that we have points spread out for each order, graft those back onto the
 scaffold sphere created above. 
 
  - `151 Graft 2D MDS points onto scaffold sphere.ipynb`
+ - `152 Graft 2D MDS points onto relaxed scaffold sphere.ipynb`
  - `153 Graft 2D tSNE points onto scaffold sphere.ipynb`
+ - `154 Graft 2D tSNE points onto relaxed scaffold sphere.ipynb`
  - `155 Graft 2D UMAP points onto scaffold sphere.ipynb`
 
 ### Spherical relaxation
@@ -149,4 +164,7 @@ scaffold sphere created above.
  file and load them into a viewer with a slider to pick the most aesthetically
  pleasing result.
 
+ This also re-positions the order-level points at the centroid position of each
+ order after relaxation is completed. It also re-runs `integrate_tree_to_XYZ` to
+ generate new branch lines for the repositioned order points.
  
